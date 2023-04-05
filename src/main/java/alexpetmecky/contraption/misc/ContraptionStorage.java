@@ -7,7 +7,7 @@ public class ContraptionStorage {
 
     HashMap<String,Integer> amountNeededPerSet = new HashMap<>();//this will be in reference to the amountMadeBeforeFinal
                                                 //so in the example of logs to pickaxe, it should store stick:2, iron_ingot:3
-    HashMap<String,Double> amountProducedPerSet = new HashMap<>(); //this is how many outputs 1 input makes; example(1 oak log makes 4 pickaxes, 1 iron_ingot makes .33333 pickaxes)
+    HashMap<String,Double> amountProducedPerItem = new HashMap<>(); //this is how many outputs 1 input makes; example(1 oak log makes 4 pickaxes, 1 iron_ingot makes .33333 pickaxes)
 
     HashMap<String,Double> amountMadeBeforeFinal = new HashMap<>();//this is going to be 1 item node before the final output item
                                                     //so producing logs to pickaxes; this will store sticks:8
@@ -24,8 +24,8 @@ public class ContraptionStorage {
     public void setAmountNeededPerSet(String item,int amount){
         amountNeededPerSet.put(item,amount);
     }
-    public void setAmountProducedPerSet(String item,double amount){
-        amountProducedPerSet.put(item,amount);
+    public void setAmountProducedPerItem(String item,double amount){
+        amountProducedPerItem.put(item,amount);
     }
     public void setCurrStorage(String item){
         currStorage.put(item,0);

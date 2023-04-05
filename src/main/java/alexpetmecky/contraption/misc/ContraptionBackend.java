@@ -39,9 +39,9 @@ public class ContraptionBackend {
         currStorage.setAmountMadeBeforeFinal(item,amount);
     }
 
-    public void insertToProducedPer234(int contraptionIndex,String item, double amount){
+    public void insertToProducedPerItem(int contraptionIndex,String item, double amount){
         ContraptionStorage currStorage = storageList.get(contraptionIndex);
-        currStorage.setAmountProducedPerSet(item,amount);
+        currStorage.setAmountProducedPerItem(item,amount);
         storageList.set(contraptionIndex,currStorage);
     }
     public void insertToNeededPerOutput(int contraptionIndex, String item, int amount){
@@ -51,7 +51,7 @@ public class ContraptionBackend {
     }
     public void insertToCurrStorages(int contraptionIndex, String item){
         ContraptionStorage currStorage = storageList.get(contraptionIndex);
-        currStorage.setAmountProducedPerSet(item,0);
+        currStorage.setAmountProducedPerItem(item,0);
         currStorage.setCurrStorage(item);
         storageList.set(contraptionIndex,currStorage);
     }

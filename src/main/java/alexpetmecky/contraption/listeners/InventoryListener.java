@@ -268,7 +268,7 @@ public class InventoryListener implements Listener {
 
                     double amountPerStartItem = HelperFunctions.findAmountPerPath(path);//i need to test this function still
                     //amountPerStartItem is the amount that can be produced for 1 unit of input
-                    backend.insert();
+
 
 
 
@@ -276,7 +276,7 @@ public class InventoryListener implements Listener {
                     HashMap<String, Double> amountPerStartItemMinus2 = HelperFunctions.findPathAmountminus2(path);
                     //fixme there is a bug here specifically for iron ingot, it works for oak logs though
                     System.out.println(item+" output: "+amountPerStartItem );
-
+                    backend.insertToProducedPerItem(contrapNum,item,amountPerStartItem);//putting in how much is created per item given
                     //String itemBeforeFinal = amountPerStartItemMinus2.keySet();
 
                     String itemBeforeFinal = null;
