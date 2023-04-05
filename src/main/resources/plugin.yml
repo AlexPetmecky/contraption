@@ -1,0 +1,4 @@
+name: Contraption
+version: '${project.version}'
+main: alexpetmecky.contraption.Contraption
+api-version: 1.19
