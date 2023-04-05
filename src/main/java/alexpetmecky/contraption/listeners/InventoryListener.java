@@ -270,43 +270,13 @@ public class InventoryListener implements Listener {
                     //amountPerStartItem is the amount that can be produced for 1 unit of input
 
 
-
-
-
-                    HashMap<String, Double> amountPerStartItemMinus2 = HelperFunctions.findPathAmountminus2(path);
-                    //fixme there is a bug here specifically for iron ingot, it works for oak logs though
-                    System.out.println(item+" output: "+amountPerStartItem );
-                    backend.insertToProducedPerItem(contrapNum,item,amountPerStartItem);//putting in how much is created per item given
+                    //im not going to use all the item before stuff
+                    System.out.println(item + " output: " + amountPerStartItem);
+                    backend.insertToProducedPerItem(contrapNum, item, amountPerStartItem);//putting in how much is created per item given
                     //String itemBeforeFinal = amountPerStartItemMinus2.keySet();
 
-                    String itemBeforeFinal = null;
-                    double amountBeforeFinal = 0;
-
-                    if(amountPerStartItemMinus2.isEmpty()){
-                        System.out.println("EMPTY");
-                    }
-                    for ( String key : amountPerStartItemMinus2.keySet() ) {
-                        System.out.println("KEY: "+key);
-                        itemBeforeFinal = key;
-                        amountBeforeFinal = amountPerStartItemMinus2.get(key);
-                    }
-
-
-                    System.out.println(itemBeforeFinal+" output -2: "+amountBeforeFinal );
-
-                    backend.insertToAmountMadeBeforeFinal(contrapNum,itemBeforeFinal,amountBeforeFinal);
-                    backend.insertToCurrStorages(contrapNum,itemBeforeFinal);
-
-                    double cost = HelperFunctions.costFromPrevToFinal(path);
-                    System.out.println(itemBeforeFinal +" to final cost: " + cost);
-
-                    //double amountNeededPerOutput = /cost;
-                    //fixme amountNeededPerOutput should be # produced / cost (cost being how much it costs to go from the second to last item to the last item)
-
-                    //backend.insertToNeededPerOutput(contrapNum,item,);//need to find how much it 'costs' to move from the element behind the final to the final
-                    //backend.insertToProducedPerOutput(contrapNum,item,amountPerStartItem);
-
-
+                    /*
+                    //this is all the code that stores the path in the block
                     //theoretically will not need a large portion of the lines below
 
                     ArrayList<Integer> tempWeights=new ArrayList<>();
@@ -332,98 +302,28 @@ public class InventoryListener implements Listener {
 
                     //see if lore can be hidden
 
+
+
+               */
+
+                    //setting lore
+                    String lore = stringInput + " To " + stringOutput;
+                    ArrayList<String> loreList = new ArrayList<String>();
+                    loreList.add(lore);
+                    contrapMeta.setLore(loreList);
+
+                    //putting block together // it gets named above, where contrapNum is initialized
+                    contraptionBlock.setItemMeta(contrapMeta);
+                    //giving the player the contraption block
+                    event.getPlayer().getInventory().addItem(contraptionBlock);
+                    System.out.println("Done");
+
+
+
+
+
+
                 }
-
-                //gcd of each path
-                HashMap<String,Integer> itemAndGCD = new HashMap<>();
-                //this math needs to be worked on
-                //this function can probably be removed its not that helpful
-                for(String key:itemAndValues.keySet()){
-                    ArrayList temp = itemAndValues.get(key);
-                    int GCD = HelperFunctions.GCDofList(temp);
-                    itemAndGCD.put(key,GCD);
-                }
-
-                //setting lore
-                String lore = stringInput +" To "+stringOutput;
-                ArrayList<String> loreList = new ArrayList<String>();
-                loreList.add(lore);
-                contrapMeta.setLore(loreList);
-
-                //naming contraption
-                //int contrapNum = backend.getLength();
-                //contrapMeta.setDisplayName("Contraption Block "+Integer.toString(contrapNum));
-
-
-                //add this contraption block to the list
-                //backend.addStorage();
-
-                //do initial backend functions
-                //  --> set all the amount needed/amount produced
-                //backend.set
-
-
-
-
-
-                //putting block together
-                contraptionBlock.setItemMeta(contrapMeta);
-                //giving the player the contraption block
-                event.getPlayer().getInventory().addItem(contraptionBlock);
-                System.out.println("Done");
-
-
-
-
-
-                //i dont need the path stuff anymore because ill just store it direclty into the backend
-                /*
-                System.out.println("PATHSTRING: "+pathString);
-                System.out.println("Gen Key");
-                NamespacedKey key = new NamespacedKey(this.plugin,"path");
-                System.out.println("Get and set persistant data");
-                contrapMeta.getPersistentDataContainer().set(key,PersistentDataType.STRING, pathString);
-
-                //Set<NamespacedKey> keys = data.getKeys();
-                //System.out.println(keys);
-                //System.out.println(data.isEmpty());
-
-
-                System.out.println("CHEKCING IF SAVING WORKS");
-                PersistentDataContainer container = contrapMeta.getPersistentDataContainer();
-                String var = container.get(key,PersistentDataType.STRING);
-                System.out.println(var);
-                System.out.println("ENDING CHECK");
-
-                */
-
-                //System.out.println("create blockname");
-                /*
-                String lore = stringInput +" To "+stringOutput;
-                ArrayList<String> loreList = new ArrayList<String>();
-                loreList.add(lore);
-                //System.out.println(lore);
-                contrapMeta.setLore(loreList);
-
-                //System.out.println("set blockname");
-                int contrapNum = backend.getLength();
-
-                contrapMeta.setDisplayName("Contraption Block "+Integer.toString(contrapNum));
-
-                //add this contraption block to the list
-                backend.addStorage();
-
-                //System.out.println("set meta");
-                contraptionBlock.setItemMeta(contrapMeta);
-
-
-                event.getPlayer().getInventory().addItem(contraptionBlock);
-                System.out.println("Done");
-                */
-
-
-
-
             }else if(stringInput.size() == 1 && stringOutput.size() ==1) {
                 //unclear if crafting or uncrafting
                 System.out.println("what");

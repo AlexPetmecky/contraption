@@ -12,10 +12,10 @@ public class ContraptionStorage {
     //HashMap<String,Double> amountMadeBeforeFinal = new HashMap<>();//this is going to be 1 item node before the final output item
                                                     //so producing logs to pickaxes; this will store sticks:8
 
-    HashMap<String,Integer> currStorage = new HashMap<>(); //this will also store the items tracked amountMadeBeforeFinal
+    HashMap<String,Double> currStorage = new HashMap<>(); //this will also store the items tracked amountMadeBeforeFinal
                                         //in the example of logs and iron ingots to pickaxes; it will store sticks and ingots
 
-    HashMap<String,Integer> amountProducedPerSet = new HashMap<>(); //this keeps how many of an item are created, for crafting it will normally just store 1 item, byt for recycling it will store all the componenets and the amount made
+    HashMap<String,Double> amountProducedPerSet = new HashMap<>(); //this keeps how many of an item are created, for crafting it will normally just store 1 item, byt for recycling it will store all the componenets and the amount made
 
 
     public void setAmountNeededPerSet(String item,int amount){
@@ -25,10 +25,10 @@ public class ContraptionStorage {
         amountProducedPerItem.put(item,amount);
     }
     public void setCurrStorage(String item){
-        currStorage.put(item,0);
+        currStorage.put(item,0.0);
     }
-    public void updateStored(String name, int amount){
-        int storedAmount = currStorage.get(name);
+    public void updateStored(String name, double amount){
+        double storedAmount = currStorage.get(name);
         storedAmount +=amount;
         currStorage.put(name,storedAmount);
     }
@@ -50,7 +50,8 @@ public class ContraptionStorage {
         //when recycling I need to do it enough times that it gives all outputs, this may be solved by the prev math, check it
 
         for(String key:currStorage.keySet()){
-            int newAmount = currStorage.get(key)-amountNeededPerSet.get(key);
+            double amountNeeded = 1 / amountProducedPerItem.get(key);//this may not be right because it assumes that it produces 1 item per , but in recycling it may produce mroe
+            double newAmount = currStorage.get(key)-amountNeeded;//could try multipiying this, but i would need to make sure there is enough off all the other items
             currStorage.put(key,newAmount);
         }
         return amountProducedPerSet;
