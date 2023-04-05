@@ -98,11 +98,19 @@ public class InventoryListener implements Listener {
 
             String insideItemName= insideItem.getItemMeta().getDisplayName();
             String insideItemPart = insideItemName.substring(0,17);
-            //insideItem.getItemMeta().getDisplayName().equals("Contraption Block")
+            String[] brokenName = insideItemName.split(" ");
+            int contraptionNumber = Integer.parseInt(brokenName[2]);
+
             if(insideItemPart.equals("Contraption Block")){
                 //in the recycler make sure to change the contrapion block into the first part of it and to delete associated arraylist
                 System.out.println("IF PASSED");
 
+                //i need the item that is being passes in the event
+                backend.insertToCurrStorages(contraptionNumber,);
+
+
+                //all of this dealt with storing the path inside the contraption block, i am no longer doing this
+                /*
                 ItemMeta contraptonMeta =  insideItem.getItemMeta();
                 PersistentDataContainer data = contraptonMeta.getPersistentDataContainer();
 
@@ -116,6 +124,7 @@ public class InventoryListener implements Listener {
 
                 //gets the index that the contraption is sotred in
                 String[] brokenName = insideItemName.split(" ");
+
                 int indexOfContrap = Integer.valueOf(brokenName[2]);
                 //save space
                 String[] sepPaths = path.split(";");
@@ -142,21 +151,11 @@ public class InventoryListener implements Listener {
 
 
                     }
-                    ///
-                    /*
-                    for(String nodeWhole:pathParts){
-                        String[] node = nodeWhole.split(",");
-                        int weight = Integer.valueOf(node[2]); //may need an abs here
-                        pathWeights.add(weight);
 
-                    }
-                    */
-                    ///
-                    //calculate the gcd of a given path
 
                 }
 
-
+*/
             }
         }
 
