@@ -106,11 +106,31 @@ public class InventoryListener implements Listener {
                 System.out.println("IF PASSED");
 
                 //i need the item that is being passes in the event
-                ItemStack passedItem = event.getItem();
-                System.out.println("Passed Item: "+passedItem.getType());
+                Material passedItem = event.getItem().getType();
+                //passedItem may need to become a string, but it is in the same format as what is stored in the backend
+                //it does not include minecraft: --> I do not need to add it
+                System.out.println("Passed Item: "+passedItem);
 
                 System.out.println("Keys: ");
                 backend.checkItem(contraptionNumber);
+
+
+                if(backend.itemExistsInStorage(contraptionNumber,passedItem.toString())){
+                    //it is in the storage, update it in currStorge and check if it can produce
+                    event.setCancelled(true);
+                    backend.increaseItemInStorage(contraptionNumber,passedItem.toString(),1);
+                    if(backend.shouldProduct(contraptionNumber)){
+                        //production should happen
+                    }else{
+                        //production should not happen
+                    }
+
+
+                }else{
+                    //not in the storage, do something
+                    //cause a backup or something?
+                    //maybe make it an infinate loop that puts it back in the hopper
+                }
                 //System.out.println()
                 //backend.insertToCurrStorages(contraptionNumber,);
 

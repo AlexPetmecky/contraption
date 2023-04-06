@@ -66,5 +66,13 @@ public class ContraptionBackend {
 
 
     }
+    public boolean itemExistsInStorage(int contraptionIndex,String passedItemToCheck){
+        ContraptionStorage currStorage = storageList.get(contraptionIndex);
+        if(currStorage.getCurrStorage().containsKey(passedItemToCheck)){
+            return true;
+        }else{
+            return false;
+        }
+    }
 
 }
