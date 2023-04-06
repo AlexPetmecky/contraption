@@ -34,9 +34,12 @@ public class ContraptionBackend {
 
     }
 
-    public void insertToAmountMadeBeforeFinal(int contraptionIndex,String item, double amount){
-        ContraptionStorage currStorage = storageList.get(contraptionIndex);
-        currStorage.setAmountMadeBeforeFinal(item,amount);
+    public void checkItem(int contraptionIndex){
+        ContraptionStorage currStorage =  storageList.get(contraptionIndex);
+        HashMap<String,Double> storage= currStorage.getCurrStorage();
+        for(String key: storage.keySet()){
+            System.out.println(key);
+        }
     }
 
     public void insertToProducedPerItem(int contraptionIndex,String item, double amount){

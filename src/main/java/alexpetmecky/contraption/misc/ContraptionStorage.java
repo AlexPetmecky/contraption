@@ -27,6 +27,9 @@ public class ContraptionStorage {
     public void setCurrStorage(String item){
         currStorage.put(item,0.0);
     }
+    public HashMap<String,Double> getCurrStorage(){
+        return currStorage;
+    }
     public void updateStored(String name, double amount){
         double storedAmount = currStorage.get(name);
         storedAmount +=amount;

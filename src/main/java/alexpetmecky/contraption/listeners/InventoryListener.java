@@ -102,11 +102,17 @@ public class InventoryListener implements Listener {
             int contraptionNumber = Integer.parseInt(brokenName[2]);
 
             if(insideItemPart.equals("Contraption Block")){
-                //in the recycler make sure to change the contrapion block into the first part of it and to delete associated arraylist
+                //in the recycler make sure to change the contrapion block into the first part of it and to delete associated arraylist // it may be ok?
                 System.out.println("IF PASSED");
 
                 //i need the item that is being passes in the event
-                backend.insertToCurrStorages(contraptionNumber,);
+                ItemStack passedItem = event.getItem();
+                System.out.println("Passed Item: "+passedItem.getType());
+
+                System.out.println("Keys: ");
+                backend.checkItem(contraptionNumber);
+                //System.out.println()
+                //backend.insertToCurrStorages(contraptionNumber,);
 
 
                 //all of this dealt with storing the path inside the contraption block, i am no longer doing this
@@ -272,8 +278,10 @@ public class InventoryListener implements Listener {
                     //im not going to use all the item before stuff
                     System.out.println(item + " output: " + amountPerStartItem);
                     backend.insertToProducedPerItem(contrapNum, item, amountPerStartItem);//putting in how much is created per item given
+                    backend.insertToCurrStorages(contrapNum,item);
                     //String itemBeforeFinal = amountPerStartItemMinus2.keySet();
 
+                }
                     /*
                     //this is all the code that stores the path in the block
                     //theoretically will not need a large portion of the lines below
@@ -322,7 +330,7 @@ public class InventoryListener implements Listener {
 
 
 
-                }
+
             }else if(stringInput.size() == 1 && stringOutput.size() ==1) {
                 //unclear if crafting or uncrafting
                 System.out.println("what");
