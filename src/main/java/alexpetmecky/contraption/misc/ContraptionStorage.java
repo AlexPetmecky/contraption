@@ -40,6 +40,7 @@ public class ContraptionStorage {
         double amountNeeded;
         for(String key:currStorage.keySet()){
             amountNeeded = 1.0 / amountProducedPerItem.get(key);
+            System.out.println("is: "+ currStorage.get(key) +" < " +amountNeeded);
             if (currStorage.get(key) < amountNeeded){
                 return false;
             }

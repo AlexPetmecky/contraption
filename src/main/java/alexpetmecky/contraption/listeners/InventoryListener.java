@@ -117,8 +117,10 @@ public class InventoryListener implements Listener {
 
                 if(backend.itemExistsInStorage(contraptionNumber,passedItem.toString())){
                     //it is in the storage, update it in currStorge and check if it can produce
-                    event.setCancelled(true);
+                    //event.setCancelled(true);
                     backend.increaseItemInStorage(contraptionNumber,passedItem.toString(),1);
+                    //i think there is something wrong with the increase storage function in some way
+
                     if(backend.shouldProduct(contraptionNumber)){
                         //production should happen
                         HashMap<String,Double> produced =backend.produce(contraptionNumber);
@@ -131,6 +133,17 @@ public class InventoryListener implements Listener {
                     }else{
                         //production should not happen
                         //not enough items in storage
+
+                        /////checking inventory //production does not happen, between comment needs to be deleted
+                        HashMap<String,Double> produced =backend.produce(contraptionNumber);
+                        //this only works for crafting i think
+
+                        for(Map.Entry<String,Double> itemSet:produced.entrySet()){
+                            System.out.println("Produce: "+itemSet.getKey() + " "+itemSet.getValue());
+                        }
+
+                        //////
+
                     }
 
 
