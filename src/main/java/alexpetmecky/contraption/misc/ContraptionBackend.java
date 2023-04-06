@@ -33,6 +33,10 @@ public class ContraptionBackend {
         return currStorage.shouldProduce();
 
     }
+    public HashMap<String, Double> produce(int contraptionIndex){
+        ContraptionStorage currStorage = storageList.get(contraptionIndex);
+        return currStorage.produce();
+    }
 
     public void checkItem(int contraptionIndex){
         ContraptionStorage currStorage =  storageList.get(contraptionIndex);
@@ -48,13 +52,13 @@ public class ContraptionBackend {
         storageList.set(contraptionIndex,currStorage);
     }
     public void insertToNeededPerOutput(int contraptionIndex, String item, int amount){
-        ContraptionStorage currStorage = storageList.get(contraptionIndex);
-        currStorage.setAmountNeededPerSet(item,amount);
-        storageList.set(contraptionIndex,currStorage);
+        //ContraptionStorage currStorage = storageList.get(contraptionIndex);
+        //currStorage.setAmountNeededPerSet(item,amount);
+        //storageList.set(contraptionIndex,currStorage);
     }
     public void insertToCurrStorages(int contraptionIndex, String item){
         ContraptionStorage currStorage = storageList.get(contraptionIndex);
-        currStorage.setAmountProducedPerItem(item,0);
+        //currStorage.setAmountProducedPerItem(item,0);
         currStorage.setCurrStorage(item);
         storageList.set(contraptionIndex,currStorage);
     }

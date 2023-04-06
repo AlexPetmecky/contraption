@@ -121,6 +121,9 @@ public class InventoryListener implements Listener {
                     backend.increaseItemInStorage(contraptionNumber,passedItem.toString(),1);
                     if(backend.shouldProduct(contraptionNumber)){
                         //production should happen
+                        HashMap<String,Double> produced =backend.produce(contraptionNumber);
+                        //this only works for crafting i think
+
                     }else{
                         //production should not happen
                     }
