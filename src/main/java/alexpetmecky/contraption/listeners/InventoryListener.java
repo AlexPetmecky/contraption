@@ -133,9 +133,9 @@ public class InventoryListener implements Listener {
                         for(Map.Entry<String,Double> itemSet:produced.entrySet()){
                             System.out.println("Produce: "+itemSet.getKey() + " "+itemSet.getValue());
 
-                            Material newMat = Material.getMaterial(itemSet.getKey());
-                            //ItemStack createdItem = new ItemStack()
-                            event.getDestination().addItem()
+                            Material producedMaterial = Material.getMaterial(itemSet.getKey());
+                            ItemStack createdItem = new ItemStack(producedMaterial);
+                            event.getDestination().addItem(createdItem);
                         }
 
                     }else{
