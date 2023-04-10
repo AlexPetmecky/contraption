@@ -41,10 +41,22 @@ public class ContraptionStorage {
         for(String key:currStorage.keySet()){
             amountNeeded = 1.0 / amountProducedPerItem.get(key);
             System.out.println("is: "+ currStorage.get(key) +" < " +amountNeeded);
-            if (currStorage.get(key) < amountNeeded){
 
-                return false;
+            if(amountNeeded < 0){
+                //im not sure but this might show it is crafting
+                if (currStorage.get(key) < Math.abs(amountNeeded)){
+
+                    return false;
+                }
+            }else{
+                if (currStorage.get(key) < amountNeeded){
+
+                    return false;
+                }
+
             }
+
+
         }
         return true;
 

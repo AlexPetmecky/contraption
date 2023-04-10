@@ -38,7 +38,7 @@ public class HelperFunctions {
             }
         }
 
-        return amount;
+        return Math.abs(amount);
     }
 
     public static HashMap<String,Double> findPathAmountminus2(LinkedList<NodeMeta> path){
