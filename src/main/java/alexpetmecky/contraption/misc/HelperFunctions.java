@@ -17,7 +17,8 @@ import java.util.*;
 public class HelperFunctions {
     
     public static double findAmountPerPath(LinkedList<NodeMeta> path){
-
+        //this is the amount that are required for 1 unit of output,
+        // even if the origional recipe produces more than 1 unit, it will scale
 
 
         double amount=1.0;
@@ -41,6 +42,12 @@ public class HelperFunctions {
         return Math.abs(amount);
     }
 
+    public static HashMap<String, Double> getFinalElement(LinkedList<NodeMeta> path){
+        NodeMeta finalNode = path.get(0);
+        HashMap<String,Double> retVal =new HashMap<>();
+        retVal.put(finalNode.getTarget(), (double) finalNode.getWeight());
+        return retVal;
+    }
     public static HashMap<String,Double> findPathAmountminus2(LinkedList<NodeMeta> path){
         double amount = 1;
         Iterator<NodeMeta> listIterator = path.descendingIterator();

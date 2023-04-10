@@ -307,6 +307,12 @@ public class InventoryListener implements Listener {
                 //add this contraption block to the list
                 backend.addStorage();
 
+                for(String produced: stringInput){
+                    //i know this variable is called stringInput, but it is actually what is being produced,
+                    // this may be changed but it will first be a simple copy paste b/c of the way that the
+                    backend.insertToAmountProducedPerSet(contrapNum,produced,1);
+                }
+
                // backend.insertToAmountProducedPerSet(contrapNum,,);
 
 
