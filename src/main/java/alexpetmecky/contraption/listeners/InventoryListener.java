@@ -132,6 +132,10 @@ public class InventoryListener implements Listener {
                         //that is the current problem, it should contain what is produced and its values
                         for(Map.Entry<String,Double> itemSet:produced.entrySet()){
                             System.out.println("Produce: "+itemSet.getKey() + " "+itemSet.getValue());
+
+                            Material newMat = Material.getMaterial(itemSet.getKey());
+                            //ItemStack createdItem = new ItemStack()
+                            event.getDestination().addItem()
                         }
 
                     }else{
@@ -310,8 +314,10 @@ public class InventoryListener implements Listener {
                 for(String produced: stringInput){
                     //i know this variable is called stringInput, but it is actually what is being produced,
                     // this may be changed but it will first be a simple copy paste b/c of the way that the
+                    //System.out.println("Adding to amountProducedPerSet"+produced);
                     backend.insertToAmountProducedPerSet(contrapNum,produced,1);
                 }
+
 
                // backend.insertToAmountProducedPerSet(contrapNum,,);
 
