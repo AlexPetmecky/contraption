@@ -119,7 +119,23 @@ public class InventoryListener implements Listener {
                     //it is in the storage, update it in currStorge and check if it can produce
                     //event.setCancelled(true);
                     backend.increaseItemInStorage(contraptionNumber,passedItem.toString(),1);
-                    //i think there is something wrong with the increase storage function in some way
+
+
+                    //the item needs to be deleted after being passed into the function
+                    ///////////////////////
+                    //delete the given item
+                    plugin.getServer().getScheduler().runTaskLater(plugin, new Runnable() {
+
+                        public void run() {
+
+                            event.getDestination().removeItem(event.getItem());
+
+                        }
+                    }, 1L);
+
+                    ///////////////////////
+
+
 
                     if(backend.shouldProduce(contraptionNumber)){
                         System.out.println("PRODUCING");
