@@ -27,7 +27,7 @@ public class ContraptionBackend {
     }
 
 
-    public boolean shouldProduct(int contraptionIndex){
+    public boolean shouldProduce(int contraptionIndex){
         ContraptionStorage currStorage = storageList.get(contraptionIndex);
 
         return currStorage.shouldProduce();
@@ -37,7 +37,13 @@ public class ContraptionBackend {
         ContraptionStorage currStorage = storageList.get(contraptionIndex);
         return currStorage.produce();
     }
-
+    public void showInventory(int contraptionIndex){
+        ContraptionStorage currStorage = storageList.get(contraptionIndex);
+        HashMap<String,Double> storage= currStorage.getCurrStorage();
+        for(String key: storage.keySet()){
+            System.out.println(key + " "+storage.get(key));
+        }
+    }
     public void checkItem(int contraptionIndex){
         ContraptionStorage currStorage =  storageList.get(contraptionIndex);
         HashMap<String,Double> storage= currStorage.getCurrStorage();
