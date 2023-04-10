@@ -127,6 +127,9 @@ public class InventoryListener implements Listener {
                         HashMap<String,Double> produced =backend.produce(contraptionNumber);
                         //this only works for crafting i think
 
+                        System.out.println("LENGHT OF PRODUCED: "+produced.size());
+                        //as of APRIL 9 length of produced = 0
+                        //that is the current problem, it should contain what is produced and its values
                         for(Map.Entry<String,Double> itemSet:produced.entrySet()){
                             System.out.println("Produce: "+itemSet.getKey() + " "+itemSet.getValue());
                         }
@@ -281,6 +284,9 @@ public class InventoryListener implements Listener {
                 //input here means input on the graph, output is what is being made
                 System.out.println("WORKING");
                 //uncrafting
+
+                //my testing and direction of the arrows has made this crafting
+
                 //System.out.println("5");
                 System.out.println("SIZE OF stringOutput: " + stringOutput.size());
                 LinkedList<NodeMeta> path = null;
@@ -301,7 +307,7 @@ public class InventoryListener implements Listener {
                 //add this contraption block to the list
                 backend.addStorage();
 
-
+               // backend.insertToAmountProducedPerSet(contrapNum,,);
 
 
                 for (String item : stringOutput) {
@@ -322,7 +328,9 @@ public class InventoryListener implements Listener {
 
                     //im not going to use all the item before stuff
                     System.out.println(item + " output: " + amountPerStartItem);
+
                     backend.insertToProducedPerItem(contrapNum, item, amountPerStartItem);//putting in how much is created per item given
+
                     backend.insertToCurrStorages(contrapNum,item);
                     //String itemBeforeFinal = amountPerStartItemMinus2.keySet();
 

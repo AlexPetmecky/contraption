@@ -22,7 +22,11 @@ public class ContraptionStorage {
         //amountNeededPerSet.put(item,amount);
     //}
     public void setAmountProducedPerItem(String item,double amount){
+
         amountProducedPerItem.put(item,amount);
+    }
+    public void setAmountProducedPerSet(String item,double amount){
+        amountProducedPerSet.put(item,amount);
     }
     public void setCurrStorage(String item){
         currStorage.put(item,0.0);
