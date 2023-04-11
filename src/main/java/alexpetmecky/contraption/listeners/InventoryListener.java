@@ -297,46 +297,73 @@ public class InventoryListener implements Listener {
         //do math here
             String file = "/Users/alexpetmecky/Desktop/pluginStuff/ContraptionFull/src/main/resources/HyperGraphMini.csv";
             //HyperApi myAPI = new HyperApi(file);
+
+            //to make this more efficint have them share as many variables as possible
+            LinkedList<NodeMeta> path = null;
+            ItemStack contraptionBlock = new ItemStack(Material.BLUE_GLAZED_TERRACOTTA);
+            ItemMeta contrapMeta = contraptionBlock.getItemMeta();
+
+
+
+            //naming the contraption
+            //////////
+            //if the code fails to find a path and create a contraption, make sure to delete the contraption from the storage
+            int contrapNum = backend.getLength();
+            contrapMeta.setDisplayName("Contraption Block "+Integer.toString(contrapNum));
+            //add this contraption block to the list
+            backend.addStorage();
+
+            //////////
+
+            //adding output pieces to storage
+            for(String produced: stringOutput){
+
+                //System.out.println("Adding to amountProducedPerSet"+produced);
+                backend.insertToAmountProducedPerSet(contrapNum,produced,1);
+            }
+
+
             if(stringInput.size() == 1 && stringOutput.size() >1){
                 //This is now recycling
-                System.out.println("how");
+                System.out.println("Recycling");
+
+                //this is currently just testing it may need to be reworked
+                for(String item:stringOutput){
+                    SearchReturn tempReturn = myApi.searchGraphSingle(stringInput.get(0), item);
+                    path = HelperFunctions.generatePath(tempReturn);
+                    System.out.println("SIZE OF PATH: " + path.size());
+
+                    HelperFunctions.printPath(path);//use this as a test function
+
+                }
+
+
+
             }else if(stringOutput.size() == 1 && stringInput.size() >1) {
                 //this is now crafting
                 //input here means input on the graph, output is what is being made
-                System.out.println("WORKING");
+                System.out.println("Crafting");
                 //uncrafting-->switching it to crafting
 
                 //my testing and direction of the arrows has made this crafting
 
                 //System.out.println("5");
-                System.out.println("SIZE OF stringOutput: " + stringInput.size());
-                LinkedList<NodeMeta> path = null;
+                //System.out.println("SIZE OF stringOutput: " + stringInput.size());
 
-                ItemStack contraptionBlock = new ItemStack(Material.BLUE_GLAZED_TERRACOTTA);
-                ItemMeta contrapMeta = contraptionBlock.getItemMeta();
-                //PersistentDataContainer contrapData = contrapMeta.getPersistentDataContainer();
-                //contrapData.set("Path",<String,String>, );
+                //LinkedList<NodeMeta> path = null;
 
-                String pathString="";
-                HashMap<String,ArrayList<Integer>> itemAndValues = new HashMap<>();
+                //ItemStack contraptionBlock = new ItemStack(Material.BLUE_GLAZED_TERRACOTTA);
+                //ItemMeta contrapMeta = contraptionBlock.getItemMeta();
 
 
-                //naming contraption
-                int contrapNum = backend.getLength();
-                contrapMeta.setDisplayName("Contraption Block "+Integer.toString(contrapNum));
+                //for(String produced: stringOutput){
 
-                //add this contraption block to the list
-                backend.addStorage();
-
-                for(String produced: stringOutput){
-                    //i know this variable is called stringInput, but it is actually what is being produced,
-                    // this may be changed but it will first be a simple copy paste b/c of the way that the
                     //System.out.println("Adding to amountProducedPerSet"+produced);
-                    backend.insertToAmountProducedPerSet(contrapNum,produced,1);
-                }
+                //    backend.insertToAmountProducedPerSet(contrapNum,produced,1);
+                //}
 
 
-               // backend.insertToAmountProducedPerSet(contrapNum,,);
+
 
 
                 for (String item : stringInput) {
