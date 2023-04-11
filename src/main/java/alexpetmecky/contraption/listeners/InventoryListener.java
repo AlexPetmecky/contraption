@@ -297,18 +297,19 @@ public class InventoryListener implements Listener {
         //do math here
             String file = "/Users/alexpetmecky/Desktop/pluginStuff/ContraptionFull/src/main/resources/HyperGraphMini.csv";
             //HyperApi myAPI = new HyperApi(file);
-            if(stringInput.size() > 1 && stringOutput.size() ==1){
-                //crafting--> input is input for search
+            if(stringInput.size() == 1 && stringOutput.size() >1){
+                //This is now recycling
                 System.out.println("how");
-            }else if(stringInput.size() == 1 && stringOutput.size() >1) {
+            }else if(stringOutput.size() == 1 && stringInput.size() >1) {
+                //this is now crafting
                 //input here means input on the graph, output is what is being made
                 System.out.println("WORKING");
-                //uncrafting
+                //uncrafting-->switching it to crafting
 
                 //my testing and direction of the arrows has made this crafting
 
                 //System.out.println("5");
-                System.out.println("SIZE OF stringOutput: " + stringOutput.size());
+                System.out.println("SIZE OF stringOutput: " + stringInput.size());
                 LinkedList<NodeMeta> path = null;
 
                 ItemStack contraptionBlock = new ItemStack(Material.BLUE_GLAZED_TERRACOTTA);
@@ -327,7 +328,7 @@ public class InventoryListener implements Listener {
                 //add this contraption block to the list
                 backend.addStorage();
 
-                for(String produced: stringInput){
+                for(String produced: stringOutput){
                     //i know this variable is called stringInput, but it is actually what is being produced,
                     // this may be changed but it will first be a simple copy paste b/c of the way that the
                     //System.out.println("Adding to amountProducedPerSet"+produced);
@@ -338,10 +339,10 @@ public class InventoryListener implements Listener {
                // backend.insertToAmountProducedPerSet(contrapNum,,);
 
 
-                for (String item : stringOutput) {
+                for (String item : stringInput) {
 
 
-                    SearchReturn tempReturn = myApi.searchGraphSingle(stringInput.get(0), item);
+                    SearchReturn tempReturn = myApi.searchGraphSingle(stringOutput.get(0), item);
                     //item here is the "final node" in the search (for breaking down pick, this could be ingot)
 
                     path = HelperFunctions.generatePath(tempReturn);
@@ -363,36 +364,7 @@ public class InventoryListener implements Listener {
                     //String itemBeforeFinal = amountPerStartItemMinus2.keySet();
 
                 }
-                    /*
-                    //this is all the code that stores the path in the block
-                    //theoretically will not need a large portion of the lines below
 
-                    ArrayList<Integer> tempWeights=new ArrayList<>();
-                    for (NodeMeta node : path) {
-                        //System.out.println(node);
-                        //System.out.print(String.valueOf(node));
-                        //pathString += String.valueOf(node);
-                        int weight = node.getWeight();
-                        tempWeights.add(weight);
-                        pathString = pathString.concat(String.valueOf(node));
-                        //pathString.concat(String.valueOf(node));
-                        pathString = pathString.concat(",");
-                    }
-
-                    itemAndValues.put(item,tempWeights);
-
-                    pathString = pathString.concat(";");
-                    //System.out.println(pathString);
-
-                    //NodeMeta finalNode = tempReturn.getFinalNode();
-
-                    //ArrayList<NodeMeta> allNodes = tempReturn.getVisited();
-
-                    //see if lore can be hidden
-
-
-
-               */
 
                     //setting lore
                     String lore = stringInput + " To " + stringOutput;
@@ -405,8 +377,6 @@ public class InventoryListener implements Listener {
                     //giving the player the contraption block
                     event.getPlayer().getInventory().addItem(contraptionBlock);
                     System.out.println("Done");
-
-
 
 
 

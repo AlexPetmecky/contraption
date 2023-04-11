@@ -27,13 +27,13 @@ public class dropperInventory implements InventoryHolder {
         //inv.setItem(0,item);
 
         ItemStack item;
-        item = createItem(" ",Material.BLACK_STAINED_GLASS_PANE,Collections.singletonList("<-- output"));
+        item = createItem(" ",Material.BLACK_STAINED_GLASS_PANE,Collections.singletonList("<--Input"));
         inv.setItem(4,item);
 
         item = createItem("Redstone Dust Here",Material.BLACK_STAINED_GLASS_PANE,Collections.singletonList(""));
         inv.setItem(13,item);
 
-        item = createItem(" ",Material.BLACK_STAINED_GLASS_PANE,Collections.singletonList("input -->"));
+        item = createItem(" ",Material.BLACK_STAINED_GLASS_PANE,Collections.singletonList("Output -->"));
         inv.setItem(22,item);
     }
 
