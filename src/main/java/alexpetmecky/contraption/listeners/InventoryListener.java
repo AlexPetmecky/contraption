@@ -178,6 +178,7 @@ public class InventoryListener implements Listener {
                     //not in the storage, do something
                     //cause a backup or something?
                     //maybe make it an infinate loop that puts it back in the hopper
+                    System.out.println("This item is not in the storage");
                 }
                 //System.out.println()
                 //backend.insertToCurrStorages(contraptionNumber,);
@@ -295,7 +296,7 @@ public class InventoryListener implements Listener {
             }
             System.out.println("4");
         //do math here
-            String file = "/Users/alexpetmecky/Desktop/pluginStuff/ContraptionFull/src/main/resources/HyperGraphMini.csv";
+            //String file = "/Users/alexpetmecky/Desktop/pluginStuff/ContraptionFull/src/main/resources/HyperGraphMini.csv";
             //HyperApi myAPI = new HyperApi(file);
 
             //to make this more efficint have them share as many variables as possible
@@ -315,17 +316,22 @@ public class InventoryListener implements Listener {
 
             //////////
 
-            //adding output pieces to storage
-            for(String produced: stringOutput){
 
-                //System.out.println("Adding to amountProducedPerSet"+produced);
-                backend.insertToAmountProducedPerSet(contrapNum,produced,1);
-            }
 
 
             if(stringInput.size() == 1 && stringOutput.size() >1){
                 //This is now recycling
                 System.out.println("Recycling");
+
+
+
+                //adding output pieces to storage
+
+                for(String produced: stringOutput){
+
+                    //backend.insertToAmountProducedPerSet(contrapNum,produced,1);
+                    //
+                }
 
                 //this is currently just testing it may need to be reworked
                 for(String item:stringOutput){
@@ -340,10 +346,9 @@ public class InventoryListener implements Listener {
 
                     double amountProduced = 1/amountPerStartItem;
 
-                    //im not going to use all the item before stuff
                     System.out.println(item + " output: " + amountProduced);
 
-                    backend.insertToAmountProducedPerSet(contrapNum,item,amountProduced);
+                    backend.insertToProducedPerItem(contrapNum,item,amountProduced);
                     backend.insertToCurrStorages(contrapNum,item);
 
 
@@ -389,7 +394,13 @@ public class InventoryListener implements Listener {
                 //}
 
 
+                //adding output pieces to storage
+                //this is different from recycling
+                for(String produced: stringOutput){
 
+                    //System.out.println("Adding to amountProducedPerSet"+produced);
+                    backend.insertToAmountProducedPerSet(contrapNum,produced,1);
+                }
 
 
                 for (String item : stringInput) {
