@@ -335,7 +335,33 @@ public class InventoryListener implements Listener {
 
                     HelperFunctions.printPath(path);//use this as a test function
 
+                    double amountPerStartItem = HelperFunctions.findAmountPerPath(path);//i need to test this function still
+                    //amountPerStartItem is the amount that can be produced for 1 unit of input
+
+                    double amountProduced = 1/amountPerStartItem;
+
+                    //im not going to use all the item before stuff
+                    System.out.println(item + " output: " + amountProduced);
+
+                    backend.insertToAmountProducedPerSet(contrapNum,item,amountProduced);
+                    backend.insertToCurrStorages(contrapNum,item);
+
+
+
+
                 }
+
+                //setting lore
+                String lore = stringInput + " To " + stringOutput;
+                ArrayList<String> loreList = new ArrayList<String>();
+                loreList.add(lore);
+                contrapMeta.setLore(loreList);
+
+                //putting block together // it gets named above, where contrapNum is initialized
+                contraptionBlock.setItemMeta(contrapMeta);
+                //giving the player the contraption block
+                event.getPlayer().getInventory().addItem(contraptionBlock);
+                System.out.println("Done");
 
 
 
