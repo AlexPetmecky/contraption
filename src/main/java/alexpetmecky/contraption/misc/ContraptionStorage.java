@@ -46,7 +46,10 @@ public class ContraptionStorage {
     public void recycleSetInput(String name){
         itemBeingRecycled = name;
     }
-    public void changeRecyclerState(boolean isRecycler){
+    public boolean checkRecycler(){
+        return isRecycler;
+    }
+    public void changeBackendState(boolean isRecycler){
         isRecycler = isRecycler;
     }
     public boolean shouldProduceRecycle(String name){

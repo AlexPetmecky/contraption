@@ -114,6 +114,29 @@ public class InventoryListener implements Listener {
                 System.out.println("Keys: ");
                 backend.checkItem(contraptionNumber);
 
+                if(backend.checkRecycler(contraptionNumber)){
+                    if(backend.shouldProducedRecycled(contraptionNumber,passedItem.toString())){
+                        HashMap<String,Double> producedItems = backend.produceRecycled(contraptionNumber);
+                        ///////////////////////
+                        //delete the given item
+                        plugin.getServer().getScheduler().runTaskLater(plugin, new Runnable() {
+
+                            public void run() {
+
+                                event.getDestination().removeItem(event.getItem());
+
+                            }
+                        }, 1L);
+
+                        ///////////////////////
+
+                        for(Map.Entry<String,Double>){
+
+                        }
+
+                    }
+                }
+
 
                 if(backend.itemExistsInStorage(contraptionNumber,passedItem.toString())){
                     //it is in the storage, update it in currStorge and check if it can produce
@@ -334,6 +357,8 @@ public class InventoryListener implements Listener {
                 }
 
                 //this is currently just testing it may need to be reworked
+                backend.setIsRecycler(contrapNum,true);
+                backend.setRecyclerInput(contrapNum,stringInput.get(0));
                 for(String item:stringOutput){
                     SearchReturn tempReturn = myApi.searchGraphSingle(stringInput.get(0), item);
                     path = HelperFunctions.generatePath(tempReturn);

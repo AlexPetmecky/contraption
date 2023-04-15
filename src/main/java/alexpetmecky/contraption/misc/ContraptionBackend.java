@@ -13,6 +13,33 @@ public class ContraptionBackend {
     public ContraptionBackend() {
 
     }
+    public boolean checkRecycler(int contraptionIndex){
+        ContraptionStorage curr = storageList.get(contraptionIndex);
+        return curr.checkRecycler();
+    }
+    public void setRecyclerInput(int contraptionIndex,String item){
+        ContraptionStorage curr = storageList.get(contraptionIndex);
+        curr.recycleSetInput(item);
+        storageList.add(contraptionIndex,curr);
+    }
+    public HashMap<String,Double> produceRecycled(int contraptionIndex){
+        ContraptionStorage curr = storageList.get(contraptionIndex);
+        HashMap<String,Double> produced = curr.produceRecycle();
+        storageList.add(contraptionIndex,curr);
+        return produced;
+    }
+    public boolean shouldProducedRecycled(int contraptionIndex,String item){
+        ContraptionStorage curr = storageList.get(contraptionIndex);
+        boolean shouldProduceRecycle = curr.shouldProduceRecycle(item);
+        //dont need to put back because shouldProduce does not change anything in the backend
+        return shouldProduceRecycle;
+
+    }
+    public void setIsRecycler(int contraptionIndex, boolean isRecycler){
+        ContraptionStorage curr = storageList.get(contraptionIndex);
+        curr.changeBackendState(isRecycler);
+        storageList.add(contraptionIndex,curr);
+    }
 
     public void addStorage(){
         //HashMap<String,Integer> storageMap = new HashMap<>();
