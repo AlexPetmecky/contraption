@@ -7,6 +7,7 @@ public class ContraptionStorage {
 
     //HashMap<String,Integer> amountNeededPerSet = new HashMap<>();//this will be in reference to the amountMadeBeforeFinal
                                                 //so in the example of logs to pickaxe, it should store stick:2, iron_ingot:3
+    boolean isRecycler=false;
     HashMap<String,Double> amountProducedPerItem = new HashMap<>(); //this is how many outputs 1 input makes; example(1 oak log makes 4 pickaxes, 1 iron_ingot makes .33333 pickaxes)
 
     //HashMap<String,Double> amountMadeBeforeFinal = new HashMap<>();//this is going to be 1 item node before the final output item
@@ -14,9 +15,11 @@ public class ContraptionStorage {
 
     HashMap<String,Double> currStorage = new HashMap<>(); //this will also store the items tracked amountMadeBeforeFinal
                                         //in the example of logs and iron ingots to pickaxes; it will store sticks and ingots
+                                        //for a recycler this will store if something cannot produce to a whole, in the example of a pickaxe to sticks and iron, it will hold sticks and iron
 
     HashMap<String,Double> amountProducedPerSet = new HashMap<>(); //this keeps how many of an item are created, for crafting it will normally just store 1 item, byt for recycling it will store all the componenets and the amount made
 
+    String itemBeingRecycled; //this is specific to recycling within the contraption
 
     //public void setAmountNeededPerSet(String item,int amount){
         //amountNeededPerSet.put(item,amount);
@@ -40,10 +43,52 @@ public class ContraptionStorage {
         currStorage.put(name,storedAmount);
     }
 
+    public void recycleSetInput(String name){
+        itemBeingRecycled = name;
+    }
+    public void changeRecyclerState(boolean isRecycler){
+        isRecycler = isRecycler;
+    }
+    public boolean shouldProduceRecycle(String name){
+        //ill use this to check if the output is the stored item
+        if(name.equals(itemBeingRecycled)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    public HashMap<String, Double> produceRecycle(){
+        HashMap<String,Double> produced= new HashMap<>();
+
+        for(String key:amountProducedPerSet.keySet()){
+            double currAmount = currStorage.get(key);
+            currAmount = currAmount + amountProducedPerSet.get(key);
+
+            double dec = currAmount %1;
+            double wholeNum = currAmount - dec;
+
+            produced.put(key,wholeNum);
+            currStorage.put(key,dec);
+
+            //currStorage.put(key,currAmount);
+        }
+        return produced;
+
+
+
+
+       //return amountProducedPerSet;
+
+
+    }
     public boolean shouldProduce(){
+        System.out.println("CURRSTORAGE SIZE: "+currStorage.size());
         double amountNeeded;
+
         for(String key:currStorage.keySet()){
+            System.out.println("key: "+key);
             amountNeeded = 1.0 / amountProducedPerItem.get(key);
+            System.out.println("Amount needed: "+amountNeeded);
             System.out.println("is: "+ currStorage.get(key) +" < " +amountNeeded);
 
             if(amountNeeded < 0){

@@ -328,7 +328,7 @@ public class InventoryListener implements Listener {
                 //adding output pieces to storage
 
                 for(String produced: stringOutput){
-
+                        // i may not even need this here, i could probably do it in the forloop under it
                     //backend.insertToAmountProducedPerSet(contrapNum,produced,1);
                     //
                 }
@@ -349,12 +349,13 @@ public class InventoryListener implements Listener {
                     System.out.println(item + " output: " + amountProduced);
 
                     backend.insertToProducedPerItem(contrapNum,item,amountProduced);
-                    backend.insertToCurrStorages(contrapNum,item);
+                    //backend.insertToCurrStorages(contrapNum,item);
 
 
 
 
                 }
+                backend.insertToCurrStorages(contrapNum,stringInput.get(0));
 
                 //setting lore
                 String lore = stringInput + " To " + stringOutput;
