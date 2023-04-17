@@ -115,6 +115,7 @@ public class InventoryListener implements Listener {
                 backend.checkItem(contraptionNumber);
 
                 if(backend.checkRecycler(contraptionNumber)){
+                    System.out.println("IT IS A RECYCLER CONTRAPTION");
                     if(backend.shouldProducedRecycled(contraptionNumber,passedItem.toString())){
                         HashMap<String,Double> producedItems = backend.produceRecycled(contraptionNumber);
                         ///////////////////////
@@ -130,14 +131,23 @@ public class InventoryListener implements Listener {
 
                         ///////////////////////
 
-                        for(Map.Entry<String,Double>){
+                        for(Map.Entry<String,Double> produced: producedItems.entrySet()){
+                            String name  = produced.getKey();
+                            double amount  = produced.getValue();
+
+                            Material producedMaterial = Material.getMaterial(name);
+                            //ItemStack newItem = new ItemStack();
+                            ItemStack createdItem = new ItemStack(producedMaterial, (int) amount);
+                            event.getDestination().addItem(createdItem);
+
 
                         }
 
                     }
+                    return;
                 }
 
-
+                System.out.println("NOT A RECYCLER CONTRAPTION");
                 if(backend.itemExistsInStorage(contraptionNumber,passedItem.toString())){
                     //it is in the storage, update it in currStorge and check if it can produce
                     //event.setCancelled(true);
@@ -335,7 +345,7 @@ public class InventoryListener implements Listener {
             int contrapNum = backend.getLength();
             contrapMeta.setDisplayName("Contraption Block "+Integer.toString(contrapNum));
             //add this contraption block to the list
-            backend.addStorage();
+
 
             //////////
 
@@ -355,7 +365,7 @@ public class InventoryListener implements Listener {
                     //backend.insertToAmountProducedPerSet(contrapNum,produced,1);
                     //
                 }
-
+                backend.addStorage();//backend only gets added if a test is passed
                 //this is currently just testing it may need to be reworked
                 backend.setIsRecycler(contrapNum,true);
                 backend.setRecyclerInput(contrapNum,stringInput.get(0));
@@ -422,6 +432,7 @@ public class InventoryListener implements Listener {
 
                 //adding output pieces to storage
                 //this is different from recycling
+                backend.addStorage();
                 for(String produced: stringOutput){
 
                     //System.out.println("Adding to amountProducedPerSet"+produced);
@@ -475,6 +486,7 @@ public class InventoryListener implements Listener {
             }else if(stringInput.size() == 1 && stringOutput.size() ==1) {
                 //unclear if crafting or uncrafting
                 System.out.println("what");
+                backend.addStorage();
             }else{
                 //contitions not satisfied, user messed up
 
