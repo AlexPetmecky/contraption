@@ -358,13 +358,6 @@ public class InventoryListener implements Listener {
 
 
 
-                //adding output pieces to storage
-
-                for(String produced: stringOutput){
-                        // i may not even need this here, i could probably do it in the forloop under it
-                    //backend.insertToAmountProducedPerSet(contrapNum,produced,1);
-                    //
-                }
                 backend.addStorage();//backend only gets added if a test is passed
                 //this is currently just testing it may need to be reworked
                 backend.setIsRecycler(contrapNum,true);
@@ -372,7 +365,7 @@ public class InventoryListener implements Listener {
                 for(String item:stringOutput){
                     SearchReturn tempReturn = myApi.searchGraphSingle(stringInput.get(0), item);
                     path = HelperFunctions.generatePath(tempReturn);
-                    System.out.println("SIZE OF PATH: " + path.size());
+                    //System.out.println("SIZE OF PATH: " + path.size());
 
                     HelperFunctions.printPath(path);//use this as a test function
 
@@ -381,7 +374,7 @@ public class InventoryListener implements Listener {
 
                     double amountProduced = 1/amountPerStartItem;
 
-                    System.out.println(item + " output: " + amountProduced);
+                    //System.out.println(item + " output: " + amountProduced);
 
                     backend.insertToProducedPerItem(contrapNum,item,amountProduced);
                     backend.insertToCurrStorages(contrapNum,item);
@@ -390,7 +383,7 @@ public class InventoryListener implements Listener {
 
 
                 }
-                //backend.insertToCurrStorages(contrapNum,stringInput.get(0));
+
 
                 //setting lore
                 String lore = stringInput + " To " + stringOutput;
@@ -410,28 +403,7 @@ public class InventoryListener implements Listener {
                 //this is now crafting
                 //input here means input on the graph, output is what is being made
                 System.out.println("Crafting");
-                //uncrafting-->switching it to crafting
 
-                //my testing and direction of the arrows has made this crafting
-
-                //System.out.println("5");
-                //System.out.println("SIZE OF stringOutput: " + stringInput.size());
-
-                //LinkedList<NodeMeta> path = null;
-
-                //ItemStack contraptionBlock = new ItemStack(Material.BLUE_GLAZED_TERRACOTTA);
-                //ItemMeta contrapMeta = contraptionBlock.getItemMeta();
-
-
-                //for(String produced: stringOutput){
-
-                    //System.out.println("Adding to amountProducedPerSet"+produced);
-                //    backend.insertToAmountProducedPerSet(contrapNum,produced,1);
-                //}
-
-
-                //adding output pieces to storage
-                //this is different from recycling
                 backend.addStorage();
                 for(String produced: stringOutput){
 
@@ -485,7 +457,7 @@ public class InventoryListener implements Listener {
 
             }else if(stringInput.size() == 1 && stringOutput.size() ==1) {
                 //unclear if crafting or uncrafting
-                System.out.println("what");
+                System.out.println("Crafting or Recycling");
                 backend.addStorage();
             }else{
                 //contitions not satisfied, user messed up

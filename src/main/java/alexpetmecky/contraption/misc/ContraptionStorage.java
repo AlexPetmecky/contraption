@@ -62,23 +62,23 @@ public class ContraptionStorage {
     }
     public HashMap<String, Double> produceRecycle(){
         HashMap<String,Double> produced= new HashMap<>();
-        System.out.println("Inside the produceRecycle function");
+        //System.out.println("Inside the produceRecycle function");
 
         for(String key:amountProducedPerItem.keySet()){
-            System.out.println("amount produced per set: "+key+": "+amountProducedPerItem.get(key));
+            //System.out.println("amount produced per set: "+key+": "+amountProducedPerItem.get(key));
             double currAmount = currStorage.get(key);
-            System.out.println("CurrAmount: "+key+": "+currAmount);
+            //System.out.println("CurrAmount: "+key+": "+currAmount);
             currAmount = currAmount + amountProducedPerItem.get(key);
-            System.out.println("New Curr: "+key+": "+currAmount);
+            //System.out.println("New Curr: "+key+": "+currAmount);
 
             double dec = currAmount %1;
             double wholeNum = currAmount - dec;
 
 
             produced.put(key,wholeNum);
-            System.out.println("Producing: "+key+": "+wholeNum);
+            //System.out.println("Producing: "+key+": "+wholeNum);
             currStorage.put(key,dec);
-            System.out.println("Amount being stored: "+key+": "+dec);
+            //System.out.println("Amount being stored: "+key+": "+dec);
 
             //currStorage.put(key,currAmount);
         }
@@ -92,14 +92,14 @@ public class ContraptionStorage {
 
     }
     public boolean shouldProduce(){
-        System.out.println("CURRSTORAGE SIZE: "+currStorage.size());
+        //System.out.println("CURRSTORAGE SIZE: "+currStorage.size());
         double amountNeeded;
 
         for(String key:currStorage.keySet()){
-            System.out.println("key: "+key);
+            //System.out.println("key: "+key);
             amountNeeded = 1.0 / amountProducedPerItem.get(key);
-            System.out.println("Amount needed: "+amountNeeded);
-            System.out.println("is: "+ currStorage.get(key) +" < " +amountNeeded);
+            //System.out.println("Amount needed: "+amountNeeded);
+            //System.out.println("is: "+ currStorage.get(key) +" < " +amountNeeded);
 
             if(amountNeeded < 0){
                 //im not sure but this might show it is crafting
