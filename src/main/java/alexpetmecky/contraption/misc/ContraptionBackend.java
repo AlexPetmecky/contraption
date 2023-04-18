@@ -37,6 +37,7 @@ public class ContraptionBackend {
     }
     public void setIsRecycler(int contraptionIndex, boolean isRecycler){
         ContraptionStorage curr = storageList.get(contraptionIndex);
+        System.out.println("isRecycler Boolean: "+isRecycler+" for recycler: "+contraptionIndex);
         curr.changeBackendState(isRecycler);
         storageList.add(contraptionIndex,curr);
     }

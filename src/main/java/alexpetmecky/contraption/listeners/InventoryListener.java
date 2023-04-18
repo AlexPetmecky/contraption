@@ -130,11 +130,11 @@ public class InventoryListener implements Listener {
                         }, 1L);
 
                         ///////////////////////
-
+                        System.out.println("About to show produced items");
                         for(Map.Entry<String,Double> produced: producedItems.entrySet()){
                             String name  = produced.getKey();
                             double amount  = produced.getValue();
-
+                            System.out.println("Name: "+name+" Amount: "+amount);
                             Material producedMaterial = Material.getMaterial(name);
                             //ItemStack newItem = new ItemStack();
                             ItemStack createdItem = new ItemStack(producedMaterial, (int) amount);
@@ -384,13 +384,13 @@ public class InventoryListener implements Listener {
                     System.out.println(item + " output: " + amountProduced);
 
                     backend.insertToProducedPerItem(contrapNum,item,amountProduced);
-                    //backend.insertToCurrStorages(contrapNum,item);
+                    backend.insertToCurrStorages(contrapNum,item);
 
 
 
 
                 }
-                backend.insertToCurrStorages(contrapNum,stringInput.get(0));
+                //backend.insertToCurrStorages(contrapNum,stringInput.get(0));
 
                 //setting lore
                 String lore = stringInput + " To " + stringOutput;
@@ -489,6 +489,7 @@ public class InventoryListener implements Listener {
                 backend.addStorage();
             }else{
                 //contitions not satisfied, user messed up
+                //backend.addStorage() not run here
 
                 /*
 

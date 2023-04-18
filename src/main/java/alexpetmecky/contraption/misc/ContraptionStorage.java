@@ -50,7 +50,7 @@ public class ContraptionStorage {
         return isRecycler;
     }
     public void changeBackendState(boolean isRecycler){
-        isRecycler = isRecycler;
+        this.isRecycler = isRecycler;
     }
     public boolean shouldProduceRecycle(String name){
         //ill use this to check if the output is the stored item
@@ -62,16 +62,23 @@ public class ContraptionStorage {
     }
     public HashMap<String, Double> produceRecycle(){
         HashMap<String,Double> produced= new HashMap<>();
+        System.out.println("Inside the produceRecycle function");
 
-        for(String key:amountProducedPerSet.keySet()){
+        for(String key:amountProducedPerItem.keySet()){
+            System.out.println("amount produced per set: "+key+": "+amountProducedPerItem.get(key));
             double currAmount = currStorage.get(key);
-            currAmount = currAmount + amountProducedPerSet.get(key);
+            System.out.println("CurrAmount: "+key+": "+currAmount);
+            currAmount = currAmount + amountProducedPerItem.get(key);
+            System.out.println("New Curr: "+key+": "+currAmount);
 
             double dec = currAmount %1;
             double wholeNum = currAmount - dec;
 
+
             produced.put(key,wholeNum);
+            System.out.println("Producing: "+key+": "+wholeNum);
             currStorage.put(key,dec);
+            System.out.println("Amount being stored: "+key+": "+dec);
 
             //currStorage.put(key,currAmount);
         }
