@@ -467,10 +467,37 @@ public class InventoryListener implements Listener {
                 System.out.println("tempReturn: "+tempReturn);
                 if(tempReturn == null){
                     //crafting input to output
-                    SearchReturn newTempReturn = myApi.searchGraphSingle(itemIn,itemOut);
+                    tempReturn = myApi.searchGraphSingle(itemIn,itemOut);
+                    if(tempReturn == null){
+                        System.out.println("INVALID RECIPE");
+                        return;
+                    }
+                    path = HelperFunctions.generatePath(tempReturn);
+
                     backend.addStorage();
-                    System.out.println("newTempReturn: "+newTempReturn);
-                    System.out.println("Crafting 1->1");
+
+                    backend.insertToAmountProducedPerSet(contrapNum,stringOutput.get(0),1);
+                    double amountPerStartItem = HelperFunctions.findAmountPerPath(path);
+
+                    System.out.println(stringInput.get(0) + " output: " + amountPerStartItem);
+                    amountPerStartItem = 1/amountPerStartItem;
+                    backend.insertToProducedPerItem(contrapNum, stringInput.get(0), amountPerStartItem);//putting in how much is created per item given
+
+                    backend.insertToCurrStorages(contrapNum,stringInput.get(0));
+
+                    String lore = stringInput + " To " + stringOutput;
+                    ArrayList<String> loreList = new ArrayList<String>();
+                    loreList.add(lore);
+                    contrapMeta.setLore(loreList);
+
+                    //putting block together // it gets named above, where contrapNum is initialized
+                    contraptionBlock.setItemMeta(contrapMeta);
+                    //giving the player the contraption block
+                    event.getPlayer().getInventory().addItem(contraptionBlock);
+                    System.out.println("Done");
+
+                    //System.out.println("newTempReturn: "+tempReturn);
+                    //System.out.println("Crafting 1->1");
 
 
                 }else{
