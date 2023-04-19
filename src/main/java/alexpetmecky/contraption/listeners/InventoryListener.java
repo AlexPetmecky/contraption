@@ -317,6 +317,12 @@ public class InventoryListener implements Listener {
                         middle.add(item);
                         stringMiddle.add(item.getType().name());
                         System.out.println("MIDDLE:"+item.getType().name());
+                        if(invSlot == 13){
+                            if(!item.getType().name().equals("REDSTONE")){
+                                System.out.println("REDSTONE NOT GIVEN-WILL NOT MAKE CONTRAPTION");
+                                return;
+                            }
+                        }
                     }else{
                         System.out.println("ERROR--> SLOT: "+invSlot+" NOT CAUGHT IN IF-ELSE CHAIN");
                     }
