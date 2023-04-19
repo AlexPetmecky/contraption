@@ -19,4 +19,9 @@ public class SearchReturn {
         return visited;
     }
 
+    public String toString(){
+        String output = "Final Node: "+finalNode;
+        return output;
+    }
+
 }

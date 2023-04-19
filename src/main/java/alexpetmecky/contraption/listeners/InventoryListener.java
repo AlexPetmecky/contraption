@@ -458,7 +458,58 @@ public class InventoryListener implements Listener {
             }else if(stringInput.size() == 1 && stringOutput.size() ==1) {
                 //unclear if crafting or uncrafting
                 System.out.println("Crafting or Recycling");
-                backend.addStorage();
+                //backend.addStorage();
+
+                //to determine if crafting or recycling run pathfinding twice and see which gets a result; if both fail its an invalid recipe
+                String itemIn = stringInput.get(0);
+                String itemOut = stringOutput.get(0);
+                SearchReturn tempReturn = myApi.searchGraphSingle(itemOut, itemIn);
+                System.out.println("tempReturn: "+tempReturn);
+                if(tempReturn == null){
+                    //crafting input to output
+                    SearchReturn newTempReturn = myApi.searchGraphSingle(itemIn,itemOut);
+                    backend.addStorage();
+                    System.out.println("newTempReturn: "+newTempReturn);
+                    System.out.println("Crafting 1->1");
+
+
+                }else{
+                    System.out.println("TEMP RETURN NOT NULL");
+                    //recycling input to output
+                    //backend.addStorage();//backend only gets added if a test is passed
+                    //this is currently just testing it may need to be reworked
+
+
+                    backend.addStorage();
+                    backend.setIsRecycler(contrapNum,true);
+                    backend.setRecyclerInput(contrapNum,stringInput.get(0));
+                    path = HelperFunctions.generatePath(tempReturn);
+                    //something is wrong with the math here
+
+                    //HelperFunctions.printPath(path);//use this as a test function
+                    double amountPerStartItem = HelperFunctions.findAmountPerPath(path);//i need to test this function still
+                    //amountPerStartItem is the amount that can be produced for 1 unit of input
+                    String item = stringOutput.get(0);
+                    double amountProduced = 1/amountPerStartItem;
+
+                    backend.insertToProducedPerItem(contrapNum,item,amountProduced);
+                    backend.insertToCurrStorages(contrapNum,item);
+
+                    String lore = stringInput + " To " + stringOutput;
+                    ArrayList<String> loreList = new ArrayList<String>();
+                    loreList.add(lore);
+                    contrapMeta.setLore(loreList);
+
+                    //putting block together // it gets named above, where contrapNum is initialized
+                    contraptionBlock.setItemMeta(contrapMeta);
+                    //giving the player the contraption block
+                    event.getPlayer().getInventory().addItem(contraptionBlock);
+                    System.out.println("Done");
+
+                }
+                //need to test, determine what failed output looks like to see if recycling or crafting
+
+
             }else{
                 //contitions not satisfied, user messed up
                 //backend.addStorage() not run here
