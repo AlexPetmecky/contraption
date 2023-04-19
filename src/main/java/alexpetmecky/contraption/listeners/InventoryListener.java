@@ -490,9 +490,13 @@ public class InventoryListener implements Listener {
                     double amountPerStartItem = HelperFunctions.findAmountPerPath(path);//i need to test this function still
                     //amountPerStartItem is the amount that can be produced for 1 unit of input
                     String item = stringOutput.get(0);
-                    double amountProduced = 1/amountPerStartItem;
 
-                    backend.insertToProducedPerItem(contrapNum,item,amountProduced);
+                    //System.out.println("amountPerStartItem: "+amountPerStartItem);
+                    //double amountProduced = 1/amountPerStartItem;
+
+                    //System.out.println("amountProduced: "+amountProduced);
+
+                    backend.insertToProducedPerItem(contrapNum,item,amountPerStartItem);
                     backend.insertToCurrStorages(contrapNum,item);
 
                     String lore = stringInput + " To " + stringOutput;
