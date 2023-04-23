@@ -33,6 +33,25 @@ public class InventoryListener implements Listener {
     public InventoryListener(Contraption plugin){
         this.plugin=plugin;
     }
+
+    public void playCreationSound(Player player){
+        //player.playSound();
+        //Player player = (Player) event.getPlayer();
+        player.playSound(player.getLocation(),Sound.BLOCK_AMETHYST_BLOCK_CHIME,0.5f,1.0f);
+    }
+    public void playFailureSound(Player player){
+        player.playSound(player.getLocation(),Sound.BLOCK_DISPENSER_FAIL,0.5f,1.0f);
+    }
+    public void playSuccessParticle(Player player,Location location){
+        Particle.DustOptions dustOptions = new Particle.DustOptions(Color.GREEN,1.0F);
+        //one is the default size
+        player.spawnParticle(Particle.REDSTONE,location,50,dustOptions);
+    }
+
+    public void playFailureParticle(Player player, Location location){
+        Particle.DustOptions dustOptions = new Particle.DustOptions(Color.RED,1.0F);
+        player.spawnParticle(Particle.REDSTONE,location,50,dustOptions);
+    }
     @EventHandler
     public void invEvent(InventoryOpenEvent event){
         System.out.println(event.getView().getTitle());
@@ -185,6 +204,7 @@ public class InventoryListener implements Listener {
                             Material producedMaterial = Material.getMaterial(itemSet.getKey());
                             ItemStack createdItem = new ItemStack(producedMaterial);
                             event.getDestination().addItem(createdItem);
+                            //spawn success particales
                         }
 
                     }else{
@@ -401,6 +421,12 @@ public class InventoryListener implements Listener {
                 contraptionBlock.setItemMeta(contrapMeta);
                 //giving the player the contraption block
                 event.getPlayer().getInventory().addItem(contraptionBlock);
+
+                Player player = (Player) event.getPlayer();
+                Location loc = event.getInventory().getLocation();
+                playCreationSound(player);
+                playSuccessParticle(player,loc);
+
                 System.out.println("Done");
 
 
@@ -441,6 +467,8 @@ public class InventoryListener implements Listener {
 
                     backend.insertToCurrStorages(contrapNum,item);
                     //String itemBeforeFinal = amountPerStartItemMinus2.keySet();
+                    //Sound.BLOCK_AMETHYST_BLOCK_CHIME;
+
 
                 }
 
@@ -455,6 +483,12 @@ public class InventoryListener implements Listener {
                     contraptionBlock.setItemMeta(contrapMeta);
                     //giving the player the contraption block
                     event.getPlayer().getInventory().addItem(contraptionBlock);
+
+                    Player player = (Player) event.getPlayer();
+                    Location loc = event.getInventory().getLocation();
+                    playCreationSound(player);
+                    playSuccessParticle(player,loc);
+
                     System.out.println("Done");
 
 
@@ -502,6 +536,12 @@ public class InventoryListener implements Listener {
                     event.getPlayer().getInventory().addItem(contraptionBlock);
                     System.out.println("Done");
 
+                    Player player = (Player) event.getPlayer();
+                    Location loc = event.getInventory().getLocation();
+                    //player.playSound(event.getPlayer().getLocation(),Sound.BLOCK_AMETHYST_BLOCK_CHIME,0.5f,1.0f);
+                    playCreationSound(player);
+                    playSuccessParticle(player,loc);
+
                     //System.out.println("newTempReturn: "+tempReturn);
                     //System.out.println("Crafting 1->1");
 
@@ -543,6 +583,11 @@ public class InventoryListener implements Listener {
                     event.getPlayer().getInventory().addItem(contraptionBlock);
                     System.out.println("Done");
 
+                    Player player = (Player) event.getPlayer();
+                    Location loc = event.getInventory().getLocation();
+                    playCreationSound(player);
+                    playSuccessParticle(player,loc);
+
                 }
                 //need to test, determine what failed output looks like to see if recycling or crafting
 
@@ -550,7 +595,10 @@ public class InventoryListener implements Listener {
             }else{
                 //contitions not satisfied, user messed up
                 //backend.addStorage() not run here
-
+                Player player = (Player) event.getPlayer();
+                Location loc = event.getInventory().getLocation();
+                playFailureSound(player);
+                playFailureParticle(player,loc);
                 /*
 
                 System.out.println("OUTPUT SIZE: "+stringOutput.size());
