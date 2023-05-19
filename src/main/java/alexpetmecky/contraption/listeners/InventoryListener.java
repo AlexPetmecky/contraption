@@ -6,6 +6,9 @@ import alexpetmecky.contraption.inventories.dropperInventory;
 import alexpetmecky.contraption.misc.*;
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.block.Dispenser;
+import org.bukkit.block.Dropper;
+import org.bukkit.block.Hopper;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -91,10 +94,6 @@ public class InventoryListener implements Listener {
 
         List<Entity> nearbyEntities= HelperFunctions.getNearbyEntities(destLoc,2);
 
-        //List<Block> nearbyBlocks= HelperFunctions.getNearbyBlocks(destLoc,1);
-        //System.out.println("Size of list: "+nearbyEntities.size());
-
-        //Location item_frame_loc =null;
         ItemFrame contrapFrame = null;
         for (Entity e:nearbyEntities) {
             System.out.println(e.getType());
@@ -102,8 +101,6 @@ public class InventoryListener implements Listener {
             Boolean check = HelperFunctions.checkEntity(e, EntityType.ITEM_FRAME);
             if(check){
                 System.out.println("Check passes");
-                //Location item_frame_loc = new Location(Bukkit.getWorld("world"), e.getX(), e.getY(), e.getZ());
-                //contrapFrame = (ItemFrame) item_frame_loc.getBlock().getState();
                 contrapFrame = (ItemFrame) e;
                 break;
             }
@@ -119,7 +116,10 @@ public class InventoryListener implements Listener {
             String insideItemPart = insideItemName.substring(0,17);
             String[] brokenName = insideItemName.split(" ");
             int contraptionNumber = Integer.parseInt(brokenName[2]);
+            List<String> lore = insideItem.getItemMeta().getLore();
+            System.out.println("The delay time is: "+lore.get(1));
 
+            //////////
             if(insideItemPart.equals("Contraption Block")){
                 //in the recycler make sure to change the contrapion block into the first part of it and to delete associated arraylist // it may be ok?
                 System.out.println("IF PASSED");
@@ -150,17 +150,26 @@ public class InventoryListener implements Listener {
 
                         ///////////////////////
                         System.out.println("About to show produced items");
-                        for(Map.Entry<String,Double> produced: producedItems.entrySet()){
-                            String name  = produced.getKey();
-                            double amount  = produced.getValue();
-                            System.out.println("Name: "+name+" Amount: "+amount);
-                            Material producedMaterial = Material.getMaterial(name);
-                            //ItemStack newItem = new ItemStack();
-                            ItemStack createdItem = new ItemStack(producedMaterial, (int) amount);
-                            event.getDestination().addItem(createdItem);
+                        System.out.println("DELAY = "+Long.parseLong(lore.get(1))*20);
+                        Bukkit.getScheduler().runTaskLater(plugin,new Runnable(){
+                            @Override
+                            public void run(){
+
+                                for(Map.Entry<String,Double> produced: producedItems.entrySet()){
+                                    String name  = produced.getKey();
+                                    double amount  = produced.getValue();
+                                    System.out.println("Name: "+name+" Amount: "+amount);
+                                    Material producedMaterial = Material.getMaterial(name);
+                                    //ItemStack newItem = new ItemStack();
+                                    ItemStack createdItem = new ItemStack(producedMaterial, (int) amount);
+                                    event.getDestination().addItem(createdItem);
+                                }
+
+                            }
+                        }, Long.parseLong(lore.get(1))*20);
 
 
-                        }
+
 
                     }
                     return;
@@ -198,14 +207,22 @@ public class InventoryListener implements Listener {
                         System.out.println("LENGHT OF PRODUCED: "+produced.size());
                         //as of APRIL 9 length of produced = 0
                         //that is the current problem, it should contain what is produced and its values
-                        for(Map.Entry<String,Double> itemSet:produced.entrySet()){
-                            System.out.println("Produce: "+itemSet.getKey() + " "+itemSet.getValue());
 
-                            Material producedMaterial = Material.getMaterial(itemSet.getKey());
-                            ItemStack createdItem = new ItemStack(producedMaterial);
-                            event.getDestination().addItem(createdItem);
-                            //spawn success particales
-                        }
+                        Bukkit.getScheduler().runTaskLater(plugin,new Runnable(){
+                            @Override
+                            public void run(){
+                                for(Map.Entry<String,Double> itemSet:produced.entrySet()){
+                                    System.out.println("Produce: "+itemSet.getKey() + " "+itemSet.getValue());
+
+                                    Material producedMaterial = Material.getMaterial(itemSet.getKey());
+                                    ItemStack createdItem = new ItemStack(producedMaterial);
+                                    event.getDestination().addItem(createdItem);
+                                    //spawn success particales
+                                }
+
+
+                            }
+                        }, Long.parseLong(lore.get(1))*20);
 
                     }else{
                         System.out.println("NOT ENOUGH TO PRODUCE");
@@ -213,16 +230,6 @@ public class InventoryListener implements Listener {
                         //not enough items in storage
 
                         backend.showInventory(contraptionNumber);
-
-                        /////checking inventory //production does not happen, between comment needs to be deleted
-                        //HashMap<String,Double> produced =backend.produce(contraptionNumber);
-                        //this only works for crafting i think
-
-                        //for(Map.Entry<String,Double> itemSet:produced.entrySet()){
-                         //   System.out.println("CANNOT Produce: "+itemSet.getKey() + " "+itemSet.getValue());
-                        //}
-
-                        //////
 
                     }
 
@@ -233,72 +240,19 @@ public class InventoryListener implements Listener {
                     //maybe make it an infinate loop that puts it back in the hopper
                     System.out.println("This item is not in the storage");
                 }
-                //System.out.println()
-                //backend.insertToCurrStorages(contraptionNumber,);
 
-
-                //all of this dealt with storing the path inside the contraption block, i am no longer doing this
-                /*
-                ItemMeta contraptonMeta =  insideItem.getItemMeta();
-                PersistentDataContainer data = contraptonMeta.getPersistentDataContainer();
-
-                Set<NamespacedKey> keys = data.getKeys();
-                System.out.println(keys);
-                System.out.println(data.isEmpty());
-
-                String path = data.get(keys.iterator().next(),PersistentDataType.STRING);
-
-                System.out.println(path);
-
-                //gets the index that the contraption is sotred in
-                String[] brokenName = insideItemName.split(" ");
-
-                int indexOfContrap = Integer.valueOf(brokenName[2]);
-                //save space
-                String[] sepPaths = path.split(";");
-
-                for(String longPath:sepPaths){
-                    //goes through each path
-                    String[] pathParts = longPath.split(",");
-
-                    ArrayList pathWeights = new ArrayList();
-
-                    int currentPathValue = 0;//current path value is the total amount that can be produced when 1 of the initial item is given
-                    String startingNode = pathParts[pathParts.length-1];
-                    String prevItemTOFinal = pathParts[2];//0 is the final item node, 1 is the recipe that points to final, 2 is the item pointing to that recipe
-                    for (int i=pathParts.length-1; i>=0;i--){//goes through each node in a given path
-                        String[] node = pathParts[i].split("\\|");
-                        int weight = Integer.valueOf(node[2]);
-                        if(i == pathParts.length-1){
-                            currentPathValue = weight;
-                        }else if(weight < 0){
-                            currentPathValue = currentPathValue / Math.abs(weight);
-                        } else if (weight > 0) {
-                            currentPathValue = currentPathValue * weight;
-                        }
-
-
-                    }
-
-
-                }
-
-*/
             }
         }
 
     }
     @EventHandler
     public void invClose(InventoryCloseEvent event){
+
         //creates the contraption block
 
         if(event.getView().getTitle().equals("Contraption Creator")){
-            //System.out.println("INV CLOSE EVENT");
-            //System.out.println("I AM HERE");
             HyperApi myApi = new HyperApi("STRING");
-            //System.out.println("1");
-            //myApi.searchGraph();
-            //System.out.println("2");
+
             ArrayList<ItemStack> input = new ArrayList<>();
             ArrayList<ItemStack> output = new ArrayList<>();
             ArrayList<ItemStack> middle = new ArrayList<>();
@@ -310,8 +264,7 @@ public class InventoryListener implements Listener {
 
             int invSlot=0;
             for(ItemStack item:event.getInventory().getContents()){
-                //System.out.print(invSlot+" ");
-                //System.out.println(item);
+
 
 
                 //slots (0-3,9-12,18-21) are input
@@ -322,21 +275,17 @@ public class InventoryListener implements Listener {
                         //input
                         input.add(item);
                         stringInput.add(item.getType().name());
-                        System.out.println("ADDED TO INPUT");
-                        //System.out.println("TOSTRING: "+item.getType().);
-                        //System.out.println("TOSTRING: "+item.getType().name());
-                        //System.out.println("INPUT:"+item.getType().name());
+
                     } else if ((invSlot >=5 && invSlot <=8)||(invSlot >=14 && invSlot <=17) || (invSlot >=23 && invSlot <=26)) {
                         //output
                         output.add(item);
                         stringOutput.add(item.getType().name());
-                        System.out.println("ADDED TO OUTPUT");
-                        //System.out.println("Output:"+item.getType().name());
+
                     }else if( invSlot == 4 || invSlot == 13 || invSlot == 22){
                         //needs to have at least 1? redstone
                         middle.add(item);
                         stringMiddle.add(item.getType().name());
-                        System.out.println("MIDDLE:"+item.getType().name());
+
                         if(invSlot == 13){
                             if(!item.getType().name().equals("REDSTONE")){
                                 System.out.println("REDSTONE NOT GIVEN-WILL NOT MAKE CONTRAPTION");
@@ -388,10 +337,21 @@ public class InventoryListener implements Listener {
                 //this is currently just testing it may need to be reworked
                 backend.setIsRecycler(contrapNum,true);
                 backend.setRecyclerInput(contrapNum,stringInput.get(0));
+
+                int pathLen=0;
+
+
+
+
+
                 for(String item:stringOutput){
                     SearchReturn tempReturn = myApi.searchGraphSingle(stringInput.get(0), item);
                     path = HelperFunctions.generatePath(tempReturn);
                     //System.out.println("SIZE OF PATH: " + path.size());
+                    if(path.size() > pathLen){
+                        pathLen = path.size();
+                    }
+                    System.out.println("SIZE OF PATH: " + path.size());
 
                     HelperFunctions.printPath(path);//use this as a test function
 
@@ -415,6 +375,7 @@ public class InventoryListener implements Listener {
                 String lore = stringInput + " To " + stringOutput;
                 ArrayList<String> loreList = new ArrayList<String>();
                 loreList.add(lore);
+                loreList.add(String.valueOf(pathLen));
                 contrapMeta.setLore(loreList);
 
                 //putting block together // it gets named above, where contrapNum is initialized
@@ -424,6 +385,7 @@ public class InventoryListener implements Listener {
 
                 Player player = (Player) event.getPlayer();
                 Location loc = event.getInventory().getLocation();
+
                 playCreationSound(player);
                 playSuccessParticle(player,loc);
 
@@ -443,7 +405,7 @@ public class InventoryListener implements Listener {
                     backend.insertToAmountProducedPerSet(contrapNum,produced,1);
                 }
 
-
+                int pathLen = 0;
                 for (String item : stringInput) {
 
 
@@ -451,6 +413,9 @@ public class InventoryListener implements Listener {
                     //item here is the "final node" in the search (for breaking down pick, this could be ingot)
 
                     path = HelperFunctions.generatePath(tempReturn);
+                    if(path.size() > pathLen){
+                        pathLen = path.size();
+                    }
                     System.out.println("SIZE OF PATH: " + path.size());
 
                     HelperFunctions.printPath(path);//use this as a test function
@@ -477,6 +442,7 @@ public class InventoryListener implements Listener {
                     String lore = stringInput + " To " + stringOutput;
                     ArrayList<String> loreList = new ArrayList<String>();
                     loreList.add(lore);
+                    loreList.add(String.valueOf(pathLen));
                     contrapMeta.setLore(loreList);
 
                     //putting block together // it gets named above, where contrapNum is initialized
@@ -486,8 +452,9 @@ public class InventoryListener implements Listener {
 
                     Player player = (Player) event.getPlayer();
                     Location loc = event.getInventory().getLocation();
+
                     playCreationSound(player);
-                    playSuccessParticle(player,loc);
+                    //playSuccessParticle(player,loc);
 
                     System.out.println("Done");
 
@@ -505,6 +472,7 @@ public class InventoryListener implements Listener {
                 String itemOut = stringOutput.get(0);
                 SearchReturn tempReturn = myApi.searchGraphSingle(itemOut, itemIn);
                 System.out.println("tempReturn: "+tempReturn);
+                int pathLen=0;
                 if(tempReturn == null){
                     //crafting input to output
                     tempReturn = myApi.searchGraphSingle(itemIn,itemOut);
@@ -513,6 +481,9 @@ public class InventoryListener implements Listener {
                         return;
                     }
                     path = HelperFunctions.generatePath(tempReturn);
+                    if(path.size() > pathLen){
+                        pathLen = path.size();
+                    }
 
                     backend.addStorage();
 
@@ -528,29 +499,42 @@ public class InventoryListener implements Listener {
                     String lore = stringInput + " To " + stringOutput;
                     ArrayList<String> loreList = new ArrayList<String>();
                     loreList.add(lore);
+                    loreList.add(String.valueOf(pathLen));
                     contrapMeta.setLore(loreList);
 
                     //putting block together // it gets named above, where contrapNum is initialized
                     contraptionBlock.setItemMeta(contrapMeta);
                     //giving the player the contraption block
                     event.getPlayer().getInventory().addItem(contraptionBlock);
-                    System.out.println("Done");
 
                     Player player = (Player) event.getPlayer();
-                    Location loc = event.getInventory().getLocation();
+
+                    System.out.println("1");
+                    InventoryHolder holder = event.getInventory().getHolder();
+                    System.out.println("HOLDER: "+holder);
+                    System.out.println("2");
+                    Location loc=null;
+                    System.out.println("3");
+                    System.out.println( holder.getClass());
+
+                    System.out.println("Holder Inventory Location"+holder.getInventory().getLocation());
+                    loc = ((Dropper) holder).getBlock().getLocation();
+
+                    System.out.println("5");
+                    System.out.println("Player: "+player);
+                    System.out.println("6");
+                    System.out.println("Event inventory location: "+loc);
+                    System.out.println("7");
                     //player.playSound(event.getPlayer().getLocation(),Sound.BLOCK_AMETHYST_BLOCK_CHIME,0.5f,1.0f);
                     playCreationSound(player);
-                    playSuccessParticle(player,loc);
+                    System.out.println("8");
 
-                    //System.out.println("newTempReturn: "+tempReturn);
-                    //System.out.println("Crafting 1->1");
+                    playSuccessParticle(player,loc);
+                    System.out.println("9");
+
 
 
                 }else{
-                    System.out.println("TEMP RETURN NOT NULL");
-                    //recycling input to output
-                    //backend.addStorage();//backend only gets added if a test is passed
-                    //this is currently just testing it may need to be reworked
 
 
                     backend.addStorage();
@@ -564,10 +548,6 @@ public class InventoryListener implements Listener {
                     //amountPerStartItem is the amount that can be produced for 1 unit of input
                     String item = stringOutput.get(0);
 
-                    //System.out.println("amountPerStartItem: "+amountPerStartItem);
-                    //double amountProduced = 1/amountPerStartItem;
-
-                    //System.out.println("amountProduced: "+amountProduced);
 
                     backend.insertToProducedPerItem(contrapNum,item,amountPerStartItem);
                     backend.insertToCurrStorages(contrapNum,item);
@@ -599,18 +579,6 @@ public class InventoryListener implements Listener {
                 Location loc = event.getInventory().getLocation();
                 playFailureSound(player);
                 playFailureParticle(player,loc);
-                /*
-
-                System.out.println("OUTPUT SIZE: "+stringOutput.size());
-                for (String out:stringOutput) {
-                    System.out.println(out);
-                }
-
-                System.out.println("INPUT SIZE: "+stringInput.size());
-                for (String in:stringOutput) {
-                    System.out.println(in);
-                }
-                */
             }
 
             }

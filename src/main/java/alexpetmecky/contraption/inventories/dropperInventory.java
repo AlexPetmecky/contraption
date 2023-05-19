@@ -15,6 +15,7 @@ public class dropperInventory implements InventoryHolder {
     private Inventory inv;
 
 
+
     public dropperInventory(){
         inv = Bukkit.createInventory(this, InventoryType.CHEST,"Contraption Creator");
         init();
